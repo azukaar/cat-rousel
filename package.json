@@ -4,23 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server"
+    "lint": "eslint --fix ./src/**/**.jsx",
+    "test": "cross-env NODE_ENV='test' jest",
+    "start": "cross-env NODE_ENV='development' webpack-dev-server",
+    "build": "cross-env NODE_ENV='production' webpack -p"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "electron-css": "^0.13.3",
-    "react-redux": "^6.0.1",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@babel/preset-env": "^7.3.4",
     "babel-core": "^6.26.3",
+    "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.5",
+    "config": "^3.0.1",
+    "electron-css": "^0.13.3",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.10.0",
     "eslint": "^5.15.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
@@ -28,9 +29,17 @@
     "jest": "^24.1.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"
+  },
+  "jest": {
+    "setupFiles": [
+      "./testSetup.js"
+    ]
   },
   "babel": {
     "plugins": [
@@ -74,5 +83,8 @@
         ]
       }
     }
+  },
+  "dependencies": {
+    "cross-env": "^5.2.0"
   }
 }

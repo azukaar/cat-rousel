@@ -1,24 +1,29 @@
+import { searchImages } from '../utils/pixbay';
+
 const actions = {
   next: () => ({
-    type: 'NEXT'
+    type: 'NEXT',
   }),
   previous: () => ({
-    type: 'PREVIOUS'
+    type: 'PREVIOUS',
   }),
-  fetchImages: (dispatch) => {
-    return fetch('https://pixabay.com/api/?key=9656065-a4094594c34f9ac14c7fc4c39&q=cat&image_type=photo')
-      .then((res) => res.json())
-      .then((res) => {
-        dispatch(actions.fetchedImages(res.hits))
-      });
-  },
-  fetchedImages: (images) => ({
+  fetchImages: dispatch => searchImages('cat')
+    .then((res) => {
+      dispatch(actions.fetchedImages(res.hits));
+    })
+    .catch(() => {
+      dispatch(actions.displayError());
+    }),
+  displayError: () => ({
+    type: 'DISPLAY_ERROR',
+  }),
+  fetchedImages: images => ({
     type: 'FETCHED_IMAGES',
     images,
   }),
-  resize: (nbImages) => ({
+  resize: nbImages => ({
     type: 'RESIZE',
-    nbImages
+    nbImages,
   }),
 };
 

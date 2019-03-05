@@ -1,4 +1,4 @@
-import { CSS, units,  } from 'electron-css';
+import { CSS, units } from 'electron-css';
 
 const { px } = units;
 
@@ -23,13 +23,13 @@ const imageContainer = (src) => CSS({
   margin: px(10),
   border: [
     'white',
-    '10px',
+    px(10),
     'solid'
   ],
-  boxShadow: ['0px',
-    '10px',
-    '50px',
-    '0px',
+  boxShadow: [px(0),
+    px(10),
+    px(50),
+    px(0),
     'rgba(0,0,0,0.5)'
   ],
 });

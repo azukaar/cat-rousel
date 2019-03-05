@@ -3,9 +3,9 @@ import thunk from 'redux-thunk';
 import actions from './actions';
 import reducers from './reducers';
 
-let store = createStore(
+const store = createStore(
   reducers,
-  applyMiddleware(thunk)
+  applyMiddleware(thunk),
 );
 
 export {

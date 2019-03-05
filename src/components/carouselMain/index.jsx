@@ -1,14 +1,24 @@
 import React from 'react';
-import CarouselImages from '../carouselImages';
+import { CarouselImages } from '../carouselImages';
 import { connect } from 'react-redux';
 import { actions } from '../../store';
 import styles from './styles';
 
-class CarouselMain extends React.Component {
+class CarouselMainComponent extends React.Component {
 	componentDidMount() {
-		this.props.fetchImages();
-		window.addEventListener('resize', (event) => this.onResize());
 		this.onResize.apply(this);
+		this.props.fetchImages();
+
+		window.addEventListener('resize', (event) => this.onResize());
+		window.addEventListener('keyup', (event) => this.onKeyUp(event));
+	}
+
+	onKeyUp(event) {
+		if (event.key === 'ArrowRight') {
+			this.props.onClickNext();
+		} else if (event.key === 'ArrowLeft') {
+			this.props.onClickPrevious();
+		} 
 	}
 
 	onResize() {
@@ -19,16 +29,26 @@ class CarouselMain extends React.Component {
 	render() {
 		return <div className={styles.container}>
 			<h1 className={styles.title}>Cat-rousel</h1>
-			<div>
-				<CarouselImages></CarouselImages>
-			</div>
-			<button className={styles.buttons} onClick={this.props.onClickPrevious}>Previous</button>
-			<button className={styles.buttons} onClick={this.props.onClickNext}>Next</button>
+			{ this.props.displayError ? 
+				<div>
+					<div className={styles.error}>Error occued !</div>
+					<img src="assets/error.gif" />
+				</div> :
+				<div>
+					<div>
+						<CarouselImages></CarouselImages>
+					</div>
+					<button className={styles.buttons} onClick={this.props.onClickPrevious}>Previous</button>
+					<button className={styles.buttons} onClick={this.props.onClickNext}>Next</button>
+				</div>
+			}
 		</div>;
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+	displayError: state.displayError
+});
 
 const mapDispatchToProps = dispatch => ({
     onClickNext: () => dispatch(actions.next()),
@@ -37,7 +57,12 @@ const mapDispatchToProps = dispatch => ({
 		resize: (nbImages) => dispatch(actions.resize(nbImages)),
 });
 
-export default connect(
+const CarouselMain = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CarouselMain)
+)(CarouselMainComponent);
+
+export {
+	CarouselMainComponent,
+	CarouselMain,
+};

@@ -1,4 +1,5 @@
 var path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './src/index.jsx',
@@ -10,6 +11,11 @@ module.exports = {
   resolve: {
     extensions: ['.jsx', '.js']
   },
+  plugins: [
+      new webpack.DefinePlugin({
+        CONFIG: JSON.stringify(require("config"))
+      })
+  ],
   module: {
     rules: [
       {

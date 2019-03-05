@@ -2,22 +2,29 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.jsx'
 
-class CarouselImages extends React.Component {
-  render() {
-    const startIndex = Math.max(
-        this.props.index - Math.floor(this.props.nbImages / 2),
-        0
+class CarouselImagesComponent extends React.Component {
+  getStartIndex(index, nbImages) {
+    return Math.max(
+      index - Math.floor(nbImages / 2),
+      0
     );
+  }
 
-    const endIndex = Math.min(
-      this.props.index + Math.ceil(this.props.nbImages / 2),
-      this.props.images.length - 1
+  getEndIndex(index, nbImages, imagesLength) {
+    return Math.min(
+      index + Math.ceil(nbImages / 2),
+      imagesLength - 1
     );
+  }
+
+  render() {
+    const startIndex = this.getStartIndex(this.props.index, this.props.nbImages);
+    const endIndex = this.getEndIndex(this.props.index, this.props.nbImages, this.props.images.length);
 
     if (this.props.images.length && endIndex > 0) {
       const images = this.props.images.slice(startIndex, endIndex);
 
-      return images.map(image => <div className={styles.container}>
+      return images.map(image => <div key={image.id} className={styles.container}>
         <div className={
           styles.imageContainer(image.webformatURL)
         }></div>
@@ -36,7 +43,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({});
 
-export default connect(
+const CarouselImages = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CarouselImages);
+)(CarouselImagesComponent);
+
+export {
+	CarouselImagesComponent,
+	CarouselImages,
+};
